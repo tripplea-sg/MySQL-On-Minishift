@@ -151,5 +151,21 @@ Upload mysql-svc-template.yaml
 ```
 oc apply -f mysql-svc-template.yaml -n db-mysql-dev
 ```
+## Create Secret 
+Secret is used to store default root password when deploying new MySQL container.
+Copy and paste below YAML code and name it as secret.yaml.
+```
+apiVersion: v1
+kind: Secret
+metadata:
+   name: mysqlsecret
+   type: Opaque
+data:
+   ROOT_PASSWORD: cm9vdA==
+```
+The above code will set initial root password for new MySQL container as "root". Upload secret.yaml:
+```
+oc apply -f secret.yaml -n db-mysql-dev
+```
 
  
