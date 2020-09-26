@@ -113,6 +113,7 @@ parameters:
  oc apply -f mysql-generic-template.yaml -n db-mysql-dev
  ```
  ## Service Template for MySQL Container
+ Service is used as DNS lookup to connect to MySQL container since IP address is always dynamic in cloud native environment.
  Ensure service name for MySQL equals to Pod-name for simplicity of deployment from MySQL perspective. 
  Copy and paste below YAML code and name it as mysql-svc-template.yaml
  ```
@@ -266,5 +267,50 @@ parameters:
 Upload router-generic-template.yaml
 ```
 oc apply -f router-generic-template.yaml
+```
+## Service Template for MySQL Router Container
+Service is used as DNS lookup to connect to MySQL Router container since IP address is always dynamic in cloud native environment.
+Copy and paste below YAML code and name it as mysql-svc-template.yaml.
+```
+kind: "Template"
+apiVersion: "v1"
+metadata:
+  name: router-svc
+objects:
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: '${nodename}'
+      labels:
+        app: '${nodename}'
+    spec:
+      clusterIP: None
+      ports:
+        -
+          name: 6446-tcp
+          protocol: TCP
+          port: 6446
+          targetPort: 6446
+        - 
+          name: 6447-tcp
+          protocol: TCP
+          port: 6447
+          targetPort: 6447
+        - 
+          name: 80-tcp
+          protocol: TCP
+          port: 80
+          targetPort: 80
+      selector:
+        statefulset.kubernetes.io/pod-name: '${nodename}'
+parameters:
+  - name: namespace
+    displayName: OpenShift namespace
+    value: ''
+    required: true
+  - name: nodename
+    displayName: node name
+    value: ''
+    required: true
 ```
 
