@@ -17,10 +17,9 @@ oc get templates
 ```
 The output will show list of templates have been added into the openshift:
  1. mysql-generic	        : template to deploy MySQL with n replicas
- 2. mysql-generic-no-disk : template to deploy MySQL with n replicas but no PV/PVC
- 3. mysql-svc             : template to deploy service for MySQL
- 4. router-generic        : template to deploy router and application
- 5. router-svc            : template to deploy service for router and application
+ 2. mysql-svc             : template to deploy service for MySQL
+ 3. router-generic        : template to deploy router and application
+ 4. router-svc            : template to deploy service for router and application
 
 ## 4. Check secret
 ```
@@ -36,12 +35,12 @@ The output will show list of installed images in the Openshift internal registry
 1. 172.30.1.1:5000/db-mysql-dev/mysql-enterprise-server-8021:latest : this image is MySQL 8.0.21
 2. 172.30.1.1:5000/db-mysql-dev/mysql-router	                      : this image is MySQL router
 
-## 6. Deploy a statefulset with 3 replicas and "No PV/PVC"
+## 6. Deploy a statefulset with 3 replicas 
 ```
-oc process -n db-mysql-dev mysql-generic-no-disk -p namespace=db-mysql-dev -p imageName=172.30.1.1:5000/db-mysql-dev/mysql-enterprise-server-8021:latest -p statefulsetname=workgroup1 -p replicas=3 -p secretpassword=mysqlsecret | oc create -f -
+oc process -n db-mysql-dev mysql-generic -p namespace=db-mysql-dev -p imageName=172.30.1.1:5000/db-mysql-dev/mysql-enterprise-server-8021:latest -p statefulsetname=workgroup1 -p replicas=3 -p secretpassword=mysqlsecret | oc create -f -
 ```
 Syntax:
-oc process -n <project> <template> -p namespace=<namespace> -p imageName=<image> -p statefulsetname=<clustername> -p replicas=<numberOfReplicas> -p secretpassword=<secret> | oc create -f -
+oc process -n \<project> \<template> -p namespace=\<namespace> -p imageName=\<image> -p statefulsetname=\<clustername> -p replicas=\<numberOfReplicas> -p secretpassword=\<secret> | oc create -f -
 
 ## 7. Deploy services for the 3 replicas
 ```
