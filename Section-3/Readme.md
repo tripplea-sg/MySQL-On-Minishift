@@ -49,14 +49,14 @@ oc process -n db-mysql-dev mysql-svc -p namespace=db-mysql-dev -p nodename=workg
 oc process -n db-mysql-dev mysql-svc -p namespace=db-mysql-dev -p nodename=workgroup1-2 | oc create -f -
 ```
 syntax: 
-oc process -n <project> <template> -p namespace=<namespace> -p nodename=<targetNode> | oc create -f -
+oc process -n \<project> \<template> -p namespace=\<namespace> -p nodename=\<targetNode> | oc create -f -
 
 ## 8. Login to workgroup1-0 and create user demo
 ```
 oc exec -it workgroup1-0 -- mysql -uroot -proot
 ```
 syntax:
-oc exec -it <PodName> -- mysql -u<user> -p<password>
+oc exec -it \<PodName> -- mysql -u\<user> -p\<password>
 
 On SQL, create user:
 ```
@@ -80,7 +80,7 @@ Try to connect to workgroup1-1, then run mysql connects to workgroup1-0 as "demo
 ```
 oc exec -it workgroup1-1 -- mysql -udemo -pdemo -hworkgroup1-0
 ```
-syntax: oc exec -it <PodName> -- mysql -u<user> -p<password> -h<mysqlserver>
+syntax: oc exec -it \<PodName> -- mysql -u\<user> -p\<password> -h\<mysqlserver>
 Check which server is actually connecting to, and query table demo.demo
 ```
 mysql > select @@hostname;
