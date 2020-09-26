@@ -16,7 +16,7 @@ sign in to your Oracle account, and perform these steps once you are on the land
 
 Unzip the downloaded .zip archive to obtain the tarball inside (mysql-enterprise-server-version.tar),
 
-Push docker image into docker registry and get <dockerID>
+Push docker image into docker registry and get "<dockerID>"
 ```
 docker load -i mysql-enterprise-server-version.tar
 docker images 
