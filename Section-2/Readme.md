@@ -112,7 +112,7 @@ parameters:
  ```
  oc apply -f mysql-generic-template.yaml -n db-mysql-dev
  ```
- ## Service for MySQL
+ ## Service Template for MySQL Container
  Ensure service name for MySQL equals to Pod-name for simplicity of deployment from MySQL perspective. 
  Copy and paste below YAML code and name it as mysql-svc-template.yaml
  ```
@@ -167,5 +167,104 @@ The above code will set initial root password for new MySQL container as "root".
 ```
 oc apply -f secret.yaml -n db-mysql-dev
 ```
+## MySQL-Router template for deploying MySQL Router as statefulset
+Copy and paste below YAML code and name it as router-generic-tamplate.yaml.
+```
+apiVersion: v1
+kind: Template
+metadata:
+  name: 'router-generic'
+  labels:
+    app: mysqlrouter
+objects:
+  - kind: StatefulSet
+    apiVersion: apps/v1
+    metadata:
+      name: '${statefulsetname}'
+      labels:
+        app: '${statefulsetname}'
+    spec:
+      strategy:
+        type: Rolling
+        rollingParams:
+          updatePeriodSeconds: 1
+          intervalSeconds: 1
+          timeoutSeconds: 600
+          maxUnavailable: 25%
+          maxSurge: 25%
+      triggers:
+        - 
+          type: ConfigChange
+        - 
+          type: ImageChange
+          imageChangeParams:
+            automatic: true
+            containerNames:
+              - '${statefulsetname}'
+            from:
+              kind: ImageStreamTag
+              namespace: '${namespace}'
+              name: '${imageName}' 
+      replicas: 1
+      test: false
+      selector:
+        matchLabels:
+          app: '${statefulsetname}'
+      template:
+        metadata:
+          labels:
+            app: '${statefulsetname}'
+        spec:
+          containers:
+            -   
+              name: mysqlrouter
+              image: 172.30.1.1:5000/db-mysql-dev/mysql-router
+              env:
+                - 
+                  name: MYSQL_PASSWORD
+                  value: grpass
+                - 
+                  name: MYSQL_USER
+                  value: gradmin
+                - 
+                  name: MYSQL_PORT
+                  value: "3306"
+                - 
+                  name: MYSQL_HOST
+                  value: '${dbnode}'
+                - 
+                  name: MYSQL_INNODB_NUM_MEMBERS
+                  value: "3"
+              command:
+                - "/bin/bash"
+                - "-cx"
+                - "exec /run.sh mysqlrouter"                 
+          restartPolicy: Always
+          terminationGracePeriodSeconds: 30
+          dnsPolicy: ClusterFirst
+          securityContext:
+          supplementalGroups:
+              - 110
+parameters:
+  - name: namespace
+    displayName: OpenShift namespace
+    value: ''
+    required: true
+  - name: statefulsetname
+    displayName: Data Node statefulset 
+    value: ''
+    required: true
+  - name: dbnode
+    displayName: cluster primary node for bootstrap
+    value: ''
+    required: true
+  - name: secretpassword 
+    displayName: a secret that stores root password
+    value: ''
+    required: true
+```
+Upload router-generic-template.yaml
+```
+oc apply -f router-generic-template.yaml
+```
 
- 
