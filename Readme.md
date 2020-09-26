@@ -3,7 +3,7 @@ This section provides high level deployment of MySQL using Container on Openshif
 ## Table of Content
 | Topic | Description |
 | ------|-------------|
-| Section-1 | Register MySQL docker image to Openshift |
+| Section-1 | Push MySQL docker image to Openshift Registry |
 | Section-2 | Upload templates manifest (YAML Files) |
 | Section-3 | Deployment of MySQL on Openshift |
 | Section-4 | Backup MySQL on Openshift using MySQL Shell instance dump |
