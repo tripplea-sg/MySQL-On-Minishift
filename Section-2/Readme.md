@@ -1,6 +1,6 @@
 # Upload Template Manifest (YAML)
 ## MySQL Enterprise Edition Template for deploying MySQL as StatefulSet
-Copy the script below and name it as mysql-generic-template.yaml
+Copy and paste below YAML code and name it as mysql-generic-template.yaml
 ```
 apiVersion: v1
 kind: Template
@@ -112,4 +112,44 @@ parameters:
  ```
  oc apply -f mysql-generic-template.yaml -n db-mysql-dev
  ```
+ ## Service for MySQL
+ Ensure service name for MySQL equals to Pod-name for simplicity of deployment from MySQL perspective. 
+ Copy and paste below YAML code and name it as mysql-svc-template.yaml
+ ```
+ kind: "Template"
+apiVersion: "v1"
+metadata:
+  name: mysql-svc
+objects:
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      name: '${nodename}'
+      labels:
+        app: '${nodename}'
+    spec:
+      clusterIP: None
+      ports:
+        -
+          name: 3306-tcp
+          protocol: TCP
+          port: 3306
+          targetPort: 3306
+      selector:
+        statefulset.kubernetes.io/pod-name: '${nodename}'
+parameters:
+  - name: namespace
+    displayName: OpenShift namespace
+    value: ''
+    required: true
+  - name: nodename
+    displayName: node name
+    value: ''
+    required: true
+```
+Upload mysql-svc-template.yaml
+```
+oc apply -f mysql-svc-template.yaml -n db-mysql-dev
+```
+
  
