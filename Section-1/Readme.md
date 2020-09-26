@@ -1,4 +1,5 @@
 # Push MySQL docker image into Openshit Registry
+## 1. MySQL Enterprise Edition
 Download MySQL Enterprise docker image from https://support.oracle.com.
 sign in to your Oracle account, and perform these steps once you are on the landing page:
     
@@ -39,4 +40,5 @@ Push the image into Openshift internal image registry
 ```
 docker push registry.<openshift URL and domain>:443/db-mysql-dev/mysql-enterprise:latest
 ```
+## 2. MySQL Router
 
