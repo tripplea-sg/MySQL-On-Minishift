@@ -30,7 +30,7 @@ oc new-project db-mysql-dev --description="This is example of MySQL deployment o
 oc project db-mysql-dev
 ```
 
-Login into internal docker registry and create image stream for MySQL
+Login into internal docker registry and tag the MySQL docker image
 ```
 docker login -u `oc whoami` -p `oc whoami --show-token` registry.<openshift URL and domain>:443
 docker tag <dockerID> registry.<openshift URL and domain>:443/db-mysql-dev/mysql-enterprise:latest
@@ -41,4 +41,14 @@ Push the image into Openshift internal image registry
 docker push registry.<openshift URL and domain>:443/db-mysql-dev/mysql-enterprise:latest
 ```
 ## 2. MySQL Router
+Pull MySQL Router docker image from public repository and get the dockerID
+```
+docker pull mysql/mysql-router
+docker images
+```
+Tag the MySQL Router docker image and push the image into Openshift internal image registry
+```
+docker tag <RouterDockerID> registry.<openshift URL and domain>:443/db-mysql-dev/mysql-router:latest
+docker push registry.<openshift URL and domain>:443/db-mysql-dev/mysql-router:latest
+```
 
