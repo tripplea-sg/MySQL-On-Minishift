@@ -33,7 +33,7 @@ oc get is
 ```
 The output will show list of installed images in the Openshift internal registry:
 1. 172.30.1.1:5000/db-mysql-dev/mysql-enterprise-server-8021:latest : this image is MySQL 8.0.21
-2. 172.30.1.1:5000/db-mysql-dev/mysql-router	                      : this image is MySQL router
+2. 172.30.1.1:5000/db-mysql-dev/mysql-router	                       : this image is MySQL router
 
 ## 6. Deploy a statefulset with 3 replicas 
 ```
