@@ -1,5 +1,5 @@
-# MySQL Technical Walk-Through on Openshift
-This section provides high level deployment of MySQL using Container on Openshift
+# MySQL Technical Walk-Through on Minishift
+This section provides high level deployment of MySQL using Container on Minishift
 ## Table of Content
 | Topic | Description |
 | ------|-------------|
