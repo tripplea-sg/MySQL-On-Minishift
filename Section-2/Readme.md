@@ -1,0 +1,1 @@
+# Upload Template Manifest (YAML)
