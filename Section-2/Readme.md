@@ -108,7 +108,7 @@ parameters:
     value: ''
     required: true
  ```
- Upload mysql-generic-template.yaml
+ Apply mysql-generic-template.yaml
  ```
  oc apply -f mysql-generic-template.yaml -n db-mysql-dev
  ```
@@ -148,7 +148,7 @@ parameters:
     value: ''
     required: true
 ```
-Upload mysql-svc-template.yaml
+Apply mysql-svc-template.yaml
 ```
 oc apply -f mysql-svc-template.yaml -n db-mysql-dev
 ```
@@ -164,7 +164,7 @@ metadata:
 data:
    ROOT_PASSWORD: cm9vdA==
 ```
-The above code will set initial root password for new MySQL container as "root". Upload secret.yaml:
+The above code will set initial root password for new MySQL container as "root". Apply secret.yaml:
 ```
 oc apply -f secret.yaml -n db-mysql-dev
 ```
@@ -264,13 +264,13 @@ parameters:
     value: ''
     required: true
 ```
-Upload router-generic-template.yaml
+Apply router-generic-template.yaml
 ```
 oc apply -f router-generic-template.yaml
 ```
 ## Service Template for MySQL Router Container
 Service is used as DNS lookup to connect to MySQL Router container since IP address is always dynamic in cloud native environment.
-Copy and paste below YAML code and name it as mysql-svc-template.yaml.
+Copy and paste below YAML code and name it as router-svc-template.yaml.
 ```
 kind: "Template"
 apiVersion: "v1"
@@ -313,4 +313,7 @@ parameters:
     value: ''
     required: true
 ```
-
+Apply router-svc-template.yaml
+```
+oc apply -f router-svc-template.yaml -n db-mysql-dev
+```
