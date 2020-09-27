@@ -70,5 +70,5 @@ set -e
 docker build -m 2g -c 4 -t private/mem:8.0.21 .
 docker images
 ```
-## 
+## 5. Register 
 
