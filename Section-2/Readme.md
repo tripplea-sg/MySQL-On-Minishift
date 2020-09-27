@@ -1,4 +1,4 @@
-# Upload Template Manifest (YAML)
+# Upload Templates
 ## MySQL Enterprise Edition Template for deploying MySQL as StatefulSet
 Copy and paste below YAML code and name it as mysql-generic-template.yaml
 ```
