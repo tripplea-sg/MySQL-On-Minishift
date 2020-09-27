@@ -1,4 +1,4 @@
-# Deploy MySQL Router on Openshift as DeploymentConfig
+# Deploy MySQL Router as DeploymentConfig
 ## MySQL Router Template and Load Balencer Service
 Copy and paste below YAML code and name it as router-dc-generic.yaml.
 ```
