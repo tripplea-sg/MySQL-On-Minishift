@@ -1,4 +1,4 @@
-# Deployment of MySQL on Openshift
+# Deploy MySQL Containers
 
 ## 1. Login to Openshift
 ```
