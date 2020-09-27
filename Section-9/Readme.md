@@ -9,12 +9,12 @@ metadata:
   labels:
     app: mysqlrouter-dc
 objects:
-  - kind: deploymentConfig 
-    apiVersion: apps/v1
+  - kind: DeploymentConfig 
+    apiVersion: v1
     metadata:
       name: '${dcname}'
       labels:
-        app: '${dcname}'
+        app: mysqlrouter-dc
     spec:
       strategy:
         type: Rolling
@@ -40,12 +40,13 @@ objects:
       replicas: '${replicas}'
       test: false
       selector:
-        matchLabels:
-          app: '${dcname}'
+        app: mysqlrouter-dc
+        deploymentconfig: '${dcname}'
       template:
         metadata:
           labels:
-            app: '${dcname}'
+            app: mysqlrouter-dc
+            deploymentconfig: '${dcname}'
         spec:
           containers:
             -   
