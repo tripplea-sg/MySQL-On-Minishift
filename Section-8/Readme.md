@@ -14,3 +14,10 @@ Syntax: oc process -n \<project> \<template> -p namespace=\<namespace> -p statef
 oc process -n db-mysql-dev router-svc -p namespace=db-mysql-dev -p nodename=router-workgroup1-0 | oc create -f -
 ```
 Syntax: oc process -n \<project> \<template> -p namespace=\<namespace> -p nodename=\<prodName> | oc create -f -
+## 4. Testing
+```
+oc exec -it workgroup1-0 -- mysql -ugradmin -pgrpass -hrouter-workgroup1-0 -P6446
+oc exec -it workgroup1-0 -- mysql -ugradmin -pgrpass -hrouter-workgroup1-0 -P6447
+oc exec -it workgroup1-0 -- mysqlsh gradmin:grpass@router-workgroup1-0:64460
+oc exec -it workgroup1-0 -- mysqlsh gradmin:grpass@router-workgroup1-0:64460
+```
