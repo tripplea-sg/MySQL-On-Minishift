@@ -92,11 +92,11 @@ parameters:
     value: ''
     required: true
   - name: imageName
-    displayName: ndb cluster docker image name
+    displayName: MySQL docker image name
     value: ''
     required: true 
   - name: statefulsetname
-    displayName: Data Node statefulset 
+    displayName:  MySQL Container statefulset 
     value: ''
     required: true
   - name: replicas
@@ -252,7 +252,7 @@ parameters:
     value: ''
     required: true
   - name: statefulsetname
-    displayName: Data Node statefulset 
+    displayName: Router statefulset 
     value: ''
     required: true
   - name: dbnode
