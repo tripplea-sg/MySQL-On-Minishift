@@ -34,7 +34,7 @@ start restoration
 ```
 oc exec -it workgroup1-2 -- mysqlsh root:root@workgroup1-1:3306 -e "util.loadDump('/backup')"
 ```
-syntax: oc exec -it \<backupserver> -- mysqlsh \<user>:\<password>@\<targetserver>:\<port> -e "util.loadDump('\<backup folder')"
+syntax: oc exec -it \<backupserver> -- mysqlsh \<user>:\<password>@\<targetserver>:\<port> -e "util.loadDump('\<backup folder>')"
 ## 5. check if database and table are exist on workgroup1-1
 ```
 oc exec -it workgroup1-1 -- mysql -uroot -proot -e "select * from demo.demo;"
