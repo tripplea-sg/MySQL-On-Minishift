@@ -20,7 +20,7 @@ Backup command:
 ```
 oc exec -it workgroup1-2 -- mysqlsh demo:demo@workgroup1-0:3306 -e "util.dumpInstance('/backup')"
 ```
-syntax: oc exec -it \<backupserver> -- mysqlsh \<user>:\<password>@\<dbserver>:\<port> -e "util.dumpInstance('\<backup folder>')" \n
+syntax: oc exec -it \<backupserver> -- mysqlsh \<user>:\<password>@\<dbserver>:\<port> -e "util.dumpInstance('\<backup folder>')"\
 check directory /backup again (it shouldn't be empty anymore)
 ```
 oc exec -it workgroup1-2 -- ls /backup
