@@ -10,6 +10,6 @@ This section provides high level deployment of MySQL using Container on Minishif
 | [Section-5](https://github.com/tripplea-sg/MySQL-On-Minishift/tree/master/Section-5) | Create Asynchronous Replication |
 | [Section-6](https://github.com/tripplea-sg/MySQL-On-Minishift/tree/master/Section-6) | Clone Database |
 | [Section-7](https://github.com/tripplea-sg/MySQL-On-Minishift/tree/master/Section-7) | Deploy MySQL InnoDB Cluster |
-| Section-8 | Deploy MySQL Router as StatefulSet |
-| Section-9 | Deploy MySQL Router as DeploymentConfig |
-| Section-10 | Deploy MySQL Enterprise Monitor (MEM) Container |
+| [Section-8](https://github.com/tripplea-sg/MySQL-On-Minishift/tree/master/Section-8) | Deploy MySQL Router as StatefulSet |
+| [Section-9](https://github.com/tripplea-sg/MySQL-On-Minishift/tree/master/Section-9) | Deploy MySQL Router as DeploymentConfig |
+| [Section-10](https://github.com/tripplea-sg/MySQL-On-Minishift/tree/master/Section-10) | Deploy MySQL Enterprise Monitor (MEM) Container |
