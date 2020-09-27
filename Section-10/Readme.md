@@ -221,5 +221,10 @@ Apply mem-template.yaml
 ```
 oc apply -f mem-template.yaml
 ```
-
+## 7. Spin MEM Container and Service
+```
+oc process -n db-mysql-dev mem-template -p namespace=db-mysql-dev -p imageName=172.30.1.1:5000/db-mysql-dev/mem:latest -p statefulsetname=mem -p memadmin=memadmin -p mempassword=manager -p memsize=small | oc create -f -
+```
+syntax: oc process -n db-mysql-dev \<templatename> -p namespace=\<namespace> -p imageName=\<imageName> -p statefulsetname=\<statefulsetname> -p memadmin=\<dbadminuser> -p mempassword=\<dbadminpassword> -p memsize=\<memsize> | oc create -f -
+```
 
