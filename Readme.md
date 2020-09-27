@@ -11,3 +11,4 @@ This section provides high level deployment of MySQL using Container on Minishif
 | Section-6 | Clone MySQL on Openshift using Clone Plugin |
 | Section-7 | MySQL InnoDB Cluster on Openshift |
 | Section-8 | Deploy MySQL Router on Openshift as StatefulSet |
+| Section-9 | Deploy MySQL Router on Openshift as DeploymentConfig |
