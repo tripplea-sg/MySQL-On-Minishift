@@ -12,4 +12,4 @@ This section provides high level deployment of MySQL using Container on Minishif
 | Section-7 | Deploy MySQL InnoDB Cluster |
 | Section-8 | Deploy MySQL Router as StatefulSet |
 | Section-9 | Deploy MySQL Router as DeploymentConfig |
-| Section-10 | Deploy MySQL Enterprise Monitor (MEM) on Openshift |
+| Section-10 | Deploy MySQL Enterprise Monitor (MEM) Container |
