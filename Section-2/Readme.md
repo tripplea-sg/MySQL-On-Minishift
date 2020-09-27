@@ -259,10 +259,6 @@ parameters:
     displayName: cluster primary node for bootstrap
     value: ''
     required: true
-  - name: secretpassword 
-    displayName: a secret that stores root password
-    value: ''
-    required: true
   - name: imageName
     displayName: docker image for MySQL Router in Openshift repository
     value: ''
