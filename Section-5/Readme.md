@@ -1,4 +1,4 @@
-# MySQL Asynchronous Replication on Openshift
+# Create Asynchronous Replication
 We will setup mysql replication from workgroup1-0 (source) to workgroup1-1 (replica)
 ## 1. Login to Openshift
 ```
