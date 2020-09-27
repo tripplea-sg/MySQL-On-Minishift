@@ -6,15 +6,15 @@ apiVersion: v1
 kind: Template
 metadata:
   name: 'router-dc-generic'
-  labels:
-    app: mysqlrouter-dc
+  labeles:
+    app: mysql-router
 objects:
-  - kind: DeploymentConfig 
+  - kind: DeploymentConfig
     apiVersion: v1
     metadata:
       name: '${dcname}'
       labels:
-        app: mysqlrouter-dc
+        app: '${dcname}'
     spec:
       strategy:
         type: Rolling
@@ -36,22 +36,23 @@ objects:
             from:
               kind: ImageStreamTag
               namespace: '${namespace}'
-              name: '${imageName}' 
+              name: '${ImageStreamName}'
       replicas: '${replicas}'
       test: false
       selector:
-        app: mysqlrouter-dc
+        app: '${dcname}'
         deploymentconfig: '${dcname}'
       template:
         metadata:
+          creationTimestamp: null
           labels:
-            app: mysqlrouter-dc
+            app: '${dcname}'
             deploymentconfig: '${dcname}'
         spec:
           containers:
-            -   
-              name: mysqlrouter-dc
-              image: '${imageName}' 
+            -
+              name: '${dcname}'
+              image: '${imageName}'
               env:
                 - 
                   name: MYSQL_PASSWORD
@@ -71,28 +72,32 @@ objects:
               command:
                 - "/bin/bash"
                 - "-cx"
-                - "exec /run.sh mysqlrouter"                 
+                - "exec /run.sh mysqlrouter"  
+              ports:
+                -
+                  containerPort: 6446
+                  protocol: TCP
           restartPolicy: Always
           terminationGracePeriodSeconds: 30
           dnsPolicy: ClusterFirst
           securityContext:
-          supplementalGroups:
-              - 110
+            supplementalGroups:
+              - 1100
 parameters:
   - name: namespace
     displayName: OpenShift namespace
     value: ''
     required: true
   - name: dcname
-    displayName: Data Node statefulset 
+    displayName: Data Node statefulset
     value: ''
     required: true
   - name: dbnode
     displayName: cluster primary node for bootstrap
     value: ''
     required: true
-  - name: secretpassword 
-    displayName: a secret that stores root password
+  - name: ImageStreamName
+    displayName: image stream name for mysql router
     value: ''
     required: true
   - name: imageName
@@ -110,7 +115,7 @@ parameters:
   - name: mysqlport
     displayName: innodb Cluster port
     value: ''
-    required: true 
+    required: true
   - name: replicas
     displayName: number of router
     value: ''
@@ -120,23 +125,23 @@ Apply router-dc-generic.yaml
 ```
 oc apply -f router-dc-generic.yaml
 ```
-
-Service Template for MySQL Router Container
-Service is used as DNS lookup to connect to MySQL Router container since IP address is always dynamic in cloud native environment. Copy and paste below YAML code and name it as router-svc-template.yaml.
-
+## Service Template for MySQL Router Container
+Service is used as DNS lookup to connect to MySQL Router container since IP address is always dynamic in cloud native environment.\
+Copy and paste below YAML code and name it as router-dc-svc-template.yaml.\
+This will create a load balance service to the deploymentConfig-ed routers above:
+```
 kind: "Template"
 apiVersion: "v1"
 metadata:
-  name: router-svc
+  name: router-dc-svc
 objects:
   - kind: Service
     apiVersion: v1
     metadata:
-      name: '${nodename}'
+      name: '${dcname}'
       labels:
-        app: '${nodename}'
+        app: '${dcname}'
     spec:
-      clusterIP: None
       ports:
         -
           name: 6446-tcp
@@ -148,19 +153,38 @@ objects:
           protocol: TCP
           port: 6447
           targetPort: 6447
-        - 
-          name: 80-tcp
+        -
+          name: 64460-tcp
           protocol: TCP
-          port: 80
-          targetPort: 80
+          port: 64460
+          targetPort: 64460
+        - 
+          name: 64470-tcp
+          protocol: TCP
+          port: 64470
+          targetPort: 64470
+      type: LoadBalancer
       selector:
-        statefulset.kubernetes.io/pod-name: '${nodename}'
+        app: '${dcname}'
+        deploymentconfig: '${dcname}'
 parameters:
-  - name: namespace
-    displayName: OpenShift namespace
+  - name: dcname
+    displayName: MySQL Router DC name
     value: ''
     required: true
-  - name: nodename
-    displayName: node name
-    value: ''
-    required: true
+```
+Apply router-dc-svc-template.yaml
+```
+oc apply -f router-dc-svc-template.yaml
+```
+## Deploy MySQL Router as DeploymentConfig
+```
+oc process -n db-mysql-dev router-dc-generic -p namespace=db-mysql-dev -p dcname=routerdc -p dbnode=workgroup1-0 -p ImageStreamName=mysql-router:latest -p imageName=172.30.1.1:5000/db-mysql-dev/mysql-router:latest -p mysqlpassword=grpass -p mysqluser=gradmin -p mysqlport=3306 -p replicas=2 | oc create -f -
+```
+Syntax: oc process -n \<namespace> \<template> -p namespace=\<namespace> -p dcname=\<routerName> -p dbnode=\<InnoDB Cluster Primary Node pod name> -p ImageStreamName=<imageStreamName> -p imageName=<imageName> -p mysqlpassword=\<clusterAdminPassword> -p mysqluser=\<clusterAdmin> -p mysqlport=\<MySQLPort> -p replicas=\<NoOfReplicas> | oc create -f -
+  
+## Deploy MySQL Router Service
+```
+oc process -n db-mysql-dev router-dc-svc -p dcname=routerdc | oc create -f -
+```
+Syntax: oc process -n \<namespace> \<template> -p dcname=\<routerName> | oc create -f -
