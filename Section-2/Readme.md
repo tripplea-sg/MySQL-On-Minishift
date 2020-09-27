@@ -219,17 +219,17 @@ objects:
           containers:
             -   
               name: mysqlrouter
-              image: 172.30.1.1:5000/db-mysql-dev/mysql-router
+              image: '${imageName}' 
               env:
                 - 
                   name: MYSQL_PASSWORD
-                  value: grpass
+                  value: '${mysqlpassword}'
                 - 
                   name: MYSQL_USER
-                  value: gradmin
+                  value: '${mysqluser}'
                 - 
                   name: MYSQL_PORT
-                  value: "3306"
+                  value: '${mysqlport}'
                 - 
                   name: MYSQL_HOST
                   value: '${dbnode}'
@@ -261,6 +261,22 @@ parameters:
     required: true
   - name: secretpassword 
     displayName: a secret that stores root password
+    value: ''
+    required: true
+  - name: imageName
+    displayName: docker image for MySQL Router in Openshift repository
+    value: ''
+    required: true
+  - name: mysqlpassword
+    displayName: innodb Cluster admin password
+    value: ''
+    required: true
+  - name: mysqluser
+    displayName: innodb Cluster admin user
+    value: ''
+    required: true
+  - name: mysqlport
+    displayName: innodb Cluster port
     value: ''
     required: true
 ```
