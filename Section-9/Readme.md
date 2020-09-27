@@ -1,20 +1,20 @@
 # Deploy MySQL Router on Openshift as DeploymentConfig
 ## MySQL Router Template 
-Copy and paste below YAML code and name it as router-generic-tamplate.yaml.
-
+Copy and paste below YAML code and name it as router-dc-generic.yaml.
+```
 apiVersion: v1
 kind: Template
 metadata:
   name: 'router-dc-generic'
   labels:
-    app: mysqlrouter
+    app: mysqlrouter-dc
 objects:
-  - kind: StatefulSet
+  - kind: deploymentConfig 
     apiVersion: apps/v1
     metadata:
-      name: '${statefulsetname}'
+      name: '${dcname}'
       labels:
-        app: '${statefulsetname}'
+        app: '${dcname}'
     spec:
       strategy:
         type: Rolling
@@ -32,35 +32,35 @@ objects:
           imageChangeParams:
             automatic: true
             containerNames:
-              - '${statefulsetname}'
+              - '${dcname}'
             from:
               kind: ImageStreamTag
               namespace: '${namespace}'
               name: '${imageName}' 
-      replicas: 1
+      replicas: '${replicas}'
       test: false
       selector:
         matchLabels:
-          app: '${statefulsetname}'
+          app: '${dcname}'
       template:
         metadata:
           labels:
-            app: '${statefulsetname}'
+            app: '${dcname}'
         spec:
           containers:
             -   
-              name: mysqlrouter
-              image: 172.30.1.1:5000/db-mysql-dev/mysql-router
+              name: mysqlrouter-dc
+              image: '${imageName}' 
               env:
                 - 
                   name: MYSQL_PASSWORD
-                  value: grpass
+                  value: '${mysqlpassword}'
                 - 
                   name: MYSQL_USER
-                  value: gradmin
+                  value: '${mysqluser}'
                 - 
                   name: MYSQL_PORT
-                  value: "3306"
+                  value: '${mysqlport}'
                 - 
                   name: MYSQL_HOST
                   value: '${dbnode}'
@@ -82,7 +82,7 @@ parameters:
     displayName: OpenShift namespace
     value: ''
     required: true
-  - name: statefulsetname
+  - name: dcname
     displayName: Data Node statefulset 
     value: ''
     required: true
@@ -94,9 +94,32 @@ parameters:
     displayName: a secret that stores root password
     value: ''
     required: true
-Apply router-generic-template.yaml
+  - name: imageName
+    displayName: docker image for MySQL Router in Openshift repository
+    value: ''
+    required: true
+  - name: mysqlpassword
+    displayName: innodb Cluster admin password
+    value: ''
+    required: true
+  - name: mysqluser
+    displayName: innodb Cluster admin user
+    value: ''
+    required: true
+  - name: mysqlport
+    displayName: innodb Cluster port
+    value: ''
+    required: true 
+  - name: replicas
+    displayName: number of router
+    value: ''
+    required: true
+```
+Apply router-dc-generic.yaml
+```
+oc apply -f router-dc-generic.yaml
+```
 
-oc apply -f router-generic-template.yaml
 Service Template for MySQL Router Container
 Service is used as DNS lookup to connect to MySQL Router container since IP address is always dynamic in cloud native environment. Copy and paste below YAML code and name it as router-svc-template.yaml.
 
