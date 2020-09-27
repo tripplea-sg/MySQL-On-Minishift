@@ -8,6 +8,24 @@ unzip V999555-01.zip
 ```
 ## 2. Create Dockerfile on the same directory
 ```
+FROM oraclelinux:7-slim
+
+RUN groupadd mysql
+RUN useradd -g mysql mysql
+RUN mkdir /mem
+
+COPY mysqlmonitor-8.0.21.1248-linux-x86_64-installer.bin docker-entrypoint.sh /mem/
+WORKDIR /mem
+
+RUN chmod u+x /mem/docker-entrypoint.sh
+RUN yum install -y libaio
+RUN yum install -y numactl-libs
+RUN yum install -y hostname
+RUN yum install -y procps-ng
+ENTRYPOINT ["/mem/docker-entrypoint.sh"]
+```
+## 3. Create docker-entrypoint.sh
+```
 #! /bin/bash
 if [ "$ADMINUSER" = "" ]; then
    ADMINUSER="admin"
@@ -45,3 +63,12 @@ while true; do
        sleep 15;
 done; 
 ```
+## 4. Build Image
+```
+set -x
+set -e
+docker build -m 2g -c 4 -t private/mem:8.0.21 .
+docker images
+```
+## 
+
