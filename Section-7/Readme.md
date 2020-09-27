@@ -1,4 +1,4 @@
-# MySQL InnoDB Cluster on Openshift
+# Deploy MySQL InnoDB Cluster
 We will setup InnoDB Cluster on top of existing workgroup1-0 - workgroup1-2
 ## 1. Login to Openshift
 ```
