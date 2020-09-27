@@ -1,4 +1,4 @@
-# Clone MySQL on Openshift using Clone Plugin
+# Clone Database
 We will setup mysql replication from workgroup1-0 (source) to workgroup1-1 (replica)
 ## 1. Login to Openshift
 ```
