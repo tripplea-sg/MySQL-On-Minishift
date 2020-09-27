@@ -1,4 +1,4 @@
-# Backup MySQL on Openshift using MySQL Shell instance dump
+# Backup Database
 
 ## 1. Login to Openshift
 ```
