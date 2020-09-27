@@ -1,4 +1,4 @@
-# Deploy MySQL Router on Openshift as StatefulSet
+# Deploy MySQL Router as StatefulSet
 ## 1. Login to Openshift
 ```
 oc login -u system -p admin
