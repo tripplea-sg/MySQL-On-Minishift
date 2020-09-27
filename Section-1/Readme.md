@@ -1,4 +1,4 @@
-# Push MySQL docker image into Minishift Registry
+# Push MySQL Enterprise Edition Image 
 ## 1. MySQL Enterprise Edition
 Download MySQL Enterprise docker image from https://support.oracle.com.
 sign in to your Oracle account, and perform these steps once you are on the landing page:
