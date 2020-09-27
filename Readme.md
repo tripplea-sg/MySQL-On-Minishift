@@ -1,4 +1,4 @@
-# MySQL Technical Walk-Through on Minishift
+# MySQL on Minishift Technical Walk-Through 
 This section provides high level deployment of MySQL using Container on Minishift
 ## Table of Content
 | Topic | Description |
