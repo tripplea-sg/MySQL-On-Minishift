@@ -190,7 +190,7 @@ objects:
           port: 18443
           targetPort: 18443
       selector:
-        statefulset.kubernetes.io/name: '${statefulsetname}'
+        statefulset.kubernetes.io/pod-name: '${podName}'
 parameters:
   - name: namespace
     displayName: OpenShift namespace
@@ -202,6 +202,10 @@ parameters:
     required: true 
   - name: statefulsetname
     displayName: Data Node statefulset 
+    value: ''
+    required: true
+  - name: podName
+    displayName: Pod Name
     value: ''
     required: true
   - name: memadmin
