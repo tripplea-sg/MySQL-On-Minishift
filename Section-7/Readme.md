@@ -16,17 +16,17 @@ oc exec -it workgroup1-2 -- mysqlsh -- dba configure-instance { --user=root --pa
 Syntax: oc exec -it \<podName> -- mysqlsh -- dba configure-instance { --user=root --password=\<rootpassword> --host=localhost } --clusterAdmin=\<clusterAdmin-anyName> --clusterAdminPassword=\<clusterAdminPassowrd-anyName> --interactive=false --restart=true
 ## 3. Create cluster on workgroup1-0
 ```
-oc exec -it workgroup1-0 -- mysqlsh gradmin:grpass@localhost:3306 -- dba createCluster 'myCluster'
+oc exec -it workgroup1-0 -- mysqlsh gradmin:grpass@localhost:3306 -- dba createCluster 'myCluster' --ipAllowlist='10.0.0.0/8'
 ```
 Syntax: oc exec -it \<podName> -- mysqlsh gradmin:grpass@localhost:3306 -- dba createCluster '\<anyNameFor-ClusterName>'
 ## 4. Add instance workgroup1-1 into cluster
 ```
-oc exec -it workgroup1-0 -- mysqlsh gradmin:grpass@localhost:3306 -- cluster add-instance gradmin:grpass@workgroup1-1:3306 --recoveryMethod=clone
+oc exec -it workgroup1-0 -- mysqlsh gradmin:grpass@localhost:3306 -- cluster add-instance gradmin:grpass@workgroup1-1:3306 --recoveryMethod=clone --ipAllowlist='10.0.0.0/8'
 ```
 Syntax: oc exec -it \<podName> -- mysqlsh \<clusterAdmin>:\<clusterAdminPassword>@localhost:3306 -- cluster add-instance \<clusterAdmin>:\<clusterAdminPassword>@\<secondNode>:3306 --recoveryMethod=clone
 ## 5. Add instance workgroup1-2 into cluster
 ```
-oc exec -it workgroup1-0 -- mysqlsh gradmin:grpass@localhost:3306 -- cluster add-instance gradmin:grpass@workgroup1-2:3306 --recoveryMethod=clone
+oc exec -it workgroup1-0 -- mysqlsh gradmin:grpass@localhost:3306 -- cluster add-instance gradmin:grpass@workgroup1-2:3306 --recoveryMethod=clone --ipAllowlist='10.0.0.0/8'
 ```
 Syntax: oc exec -it \<podName> -- mysqlsh \<clusterAdmin>:\<clusterAdminPassword>@localhost:3306 -- cluster add-instance \<clusterAdmin>:\<clusterAdminPassword>@\<thirdNode>:3306 --recoveryMethod=clone
 ## 6. View cluster status
